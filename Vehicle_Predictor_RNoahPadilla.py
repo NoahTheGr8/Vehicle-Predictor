@@ -18,8 +18,57 @@ if __name__ == "__main__":
     image_files_train = os.listdir(image_dir_train)
     image_files_test= os.listdir(image_dir_test)
     
-    for image_file in image_files_train[:10]:
-
+    #Load the train and test images into X | I will split how I want not 5050
+    X = []
+    
+    for i,image_file in enumerate(image_files_train[:10]):
+        
+        if i > 0 and i % 1000 == 0:
+            print("rocessed", i , "images")
+        
         image = mpimg.imread(image_dir_train + image_file)
-        print('Image shape',image.shape)
-        show_image(image,'Original image')
+        
+        #Normalize the image
+        if np.amax(image)>1:
+            image = (image/255).astype(np.float32)
+            #print('Converted image to float')
+        
+        #print('Image shape',image.shape)
+        #show_image(image,'Original image')
+        
+        X.append(np.array(image))
+    
+    for j,image_file in enumerate(image_files_test[:10]):
+        
+        if j > 0 and j % 1000 == 0:
+            print("Processed", j , "images")
+        
+        image = mpimg.imread(image_dir_test + image_file)
+        
+        #Normalize the image
+        if np.amax(image)>1:
+            image = (image/255).astype(np.float32)
+            #print('Converted image to float')
+        
+        #print('Image shape',image.shape)
+        #show_image(image,'Original image')
+        
+        X.append(np.array(image))
+        
+    #X = np.array(X , dtype=object)
+    
+    '''
+    TODO - Get the labels of the vehicles and put them in 'y' in their respective positions so that we could split and train
+    '''
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
