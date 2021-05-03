@@ -91,7 +91,7 @@ if __name__ == "__main__":
     print("\n> Loading training data...")
     for i,image_file in enumerate(image_files_train[:train_limit]):
         
-        if i > 0 and i % 1000 == 0:
+        if i > 0 and i % 100 == 0:
             print("Pre-Processed", i , "images from train set")
         
         image = mpimg.imread(image_dir_train + image_file)
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     bins=128
     for i,x in enumerate(X_train):
         
-        if i > 0 and i % 50 == 0:
+        if i > 0 and i % 100 == 0:
             print("Converted", i , "images from train set")
         
         hog = histogram_of_gradients(x,bins=bins)
@@ -129,12 +129,6 @@ if __name__ == "__main__":
             
         hog = histogram_of_gradients(x,bins=bins)
         HOGS_test.append(hog)#the training set are now represented using HOG
-        #fig, ax = plt.subplots(2,figsize=(8,8))
-        #fig.suptitle('Image ' + str(i))
-        #ax[0].imshow(x)
-        #ax[1].plot(np.arange(bins)*360/bins,hog)
-        #ax[1].set_ylim([0,np.amax(hog)*1.1])
-
     
     #-------------------------- PLACE EACH IMAGE (represented as HOG) INTO A CLUSTER -------------------
     clusters = 2 #cluster for cars/vans vs trucks
@@ -155,18 +149,10 @@ if __name__ == "__main__":
     #print('\nSSD: ')
     #print(km_ssd)
     
-    
-    
     #----------------------------------- PREDICT WHAT CLUSTERS THE TEST SAMPLES ARE IN -------------------
     pred = km.predict(HOGS_test)
     
     orb = cv2.ORB_create()
-    '''
-    image_dir_train = '.\\cars_train\\cars_train\\'
-    image_dir_test = '.\\cars_test\\cars_test\\'
-    image_files_train = os.listdir(image_dir_train)
-    image_files_test= os.listdir(image_dir_test)
-    '''
     
     for i,x_test_sample in enumerate(X_test[:3]):
         fig, ax = plt.subplots(2,figsize=(8,8))
@@ -219,6 +205,3 @@ if __name__ == "__main__":
         display_correspondences(x_test_sample,matched_vehicle, best_p0, best_p1)
         ax[0].imshow(x_test_sample)
         ax[1].imshow(matched_vehicle)
-        #ax[1].plot(np.arange(bins)*360/bins,HOGS_test[i])
-        #ax[1].set_ylim([0,np.amax(HOGS_test[i])*1.1])
-        #break
